@@ -1,19 +1,26 @@
 const video = document.getElementById('video');
 
-Promise.all([
-  faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-  faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-  faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-  faceapi.nets.faceExpressionNet.loadFromUri('/models'),
-]).then(startVideo);
+loadFaceApiNets = async () => {
+  faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+  faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+  faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+  faceapi.nets.faceExpressionNet.loadFromUri('/models');
+};
 
-function startVideo() {
+startVideo = async () => {
   navigator.getUserMedia(
     { video: {} },
     stream => video.srcObject = stream,
     err => console.error(err)
   );
 }
+
+startFaceRecognition = async () => {
+  await loadFaceApiNets();
+  startVideo();
+}
+
+startFaceRecognition();
 
 video.addEventListener('playing', () => {
   const canvas = faceapi.createCanvasFromMedia(video);
