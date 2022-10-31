@@ -7,7 +7,7 @@ loadFaceApiNets = async () => {
   faceapi.nets.faceExpressionNet.loadFromUri('/models');
 };
 
-startVideo = async () => {
+startVideo = () => {
   navigator.getUserMedia(
     { video: {} },
     stream => video.srcObject = stream,
